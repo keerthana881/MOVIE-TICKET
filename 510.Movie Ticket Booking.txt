@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_SEATS 50
+// Structure to store movie details
+struct Movie {
+    char name[50];
+    char time[10];
+    int totalSeats;
+    int bookedSeats;
+};
+// Function to display movie details
+void displayMovie(struct Movie movie) {
+    printf("Movie: %s\n", movie.name);
+    printf("Time: %s\n", movie.time);
+    printf("Total Seats: %d\n", movie.totalSeats);
+    printf("Available Seats: %d\n\n", movie.totalSeats - movie.bookedSeats);
+}
+// Function to book tickets
+void bookTickets(struct Movie *movie, int seats) {
+    if (seats <= 0) {
+        printf("Invalid number of seats. Please try again.\n");
+        return;
+    }
+    if (movie->bookedSeats + seats <= movie->totalSeats) {
+        movie->bookedSeats += seats;
+        printf("Successfully booked %d tickets for '%s' at %s.\n", seats, movie->name, movie->time);
+        printf("Remaining Seats: %d\n\n", movie->totalSeats - movie->bookedSeats);
+    } else {
+        printf("Not enough seats available. Only %d seats left.\n\n", movie->totalSeats - movie->bookedSeats);
+    }
+}
+int main() {
+    struct Movie movie = {"Pushpa 2", "7:30 PM", MAX_SEATS, 0};
+    int choice, seats;
+    do {
+        printf("\n*** MOVIE TICKET BOOKING SYSTEM ***\n");
+        printf("1. View Movie Details\n");
+        printf("2. Book Tickets\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        switch (choice) {
+        case 1:
+            displayMovie(movie);
+            break;
+        case 2:
+            printf("Enter the number of tickets to book: ");
+            scanf("%d", &seats);
+            bookTickets(&movie, seats);
+            break;
+        case 3:
+            printf("Thank you for using the Movie Ticket Booking System.\n");
+            break;
+        default:
+            printf("Invalid choice! Please try again.\n");
+        }
+    } while (choice != 3);
+    return 0;
+}
